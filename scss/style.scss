@@ -1,0 +1,149 @@
+/*!
+ *             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+ *                     Version 2, December 2004
+ *
+ *  Copyright (C) 2020 IJSE
+ *
+ *  Everyone is permitted to copy and distribute verbatim or modified
+ *  copies of this license document, and changing it is allowed as long
+ *  as the name is changed.
+ *
+ *             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+ *    TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ *
+ *   0. You just DO WHAT THE FUCK YOU WANT TO.
+ */
+
+/**
+ * @author : Ranjith Suranga <suranga@ijse.lk>
+ * @since : 11/15/20
+**/
+
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
+/*===============================================================================
+ * Global
+ *===============================================================================*/
+
+* {
+  font-family: 'Ubuntu', sans-serif;
+}
+
+html {
+  height: 100%;
+  font-size: 14px;
+}
+
+body {
+  min-height: 100%;
+  position: relative;
+  padding-bottom: 50px;
+}
+
+/*===============================================================================
+ * Header
+ *===============================================================================*/
+
+header {
+  padding-top: 20px;
+  border: {
+    bottom: 1px solid lightgray;
+  }
+}
+
+/*===============================================================================
+ * Main
+ *===============================================================================*/
+
+main {
+  margin-top: 50px;
+
+  @media all and (min-width: 992px) {
+    .row > div:first-child {
+      border-right: 1px solid lightgray;
+    }
+  }
+
+  h3 {
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+    background-color: rgb(251, 181, 52);
+  }
+
+  #tbl-wrapper {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  #tbl-customers {
+
+    thead tr {
+      background-color: lightgrey;
+
+      th {
+        border-bottom-color: #cecece;
+        box-shadow: 0 0 15px 0px #b3b3b3;
+      }
+    }
+
+    tbody tr {
+      cursor: pointer;
+    }
+
+    td {
+      vertical-align: middle;
+    }
+
+    th:first-child,
+    td:first-child {
+      width: 75px;
+      text-align: center;
+    }
+
+    th:last-child,
+    td:last-child {
+      position: relative;
+      width: 75px;
+      text-align: center;
+    }
+  }
+}
+
+.trash {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  background-image: url('../img/trash.png');
+  background-size: contain;
+
+  &:hover {
+    background-image: url('../img/trash-hover.png');
+  }
+}
+
+.selected {
+  background-color: #a4cde4 !important;
+}
+
+.hidden {
+  visibility: hidden !important;
+}
+
+/*===============================================================================
+ * Footer
+ *===============================================================================*/
+
+footer {
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  border-top: 1px solid lightgrey;
+}

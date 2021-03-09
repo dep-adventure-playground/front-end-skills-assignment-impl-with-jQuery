@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, scale=1.0" name="viewport">
+    <title>DOM Assignment 1</title>
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+<header class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h2>Implementation of Front End Skills Test Assignment with Web API</h2>
+        </div>
+    </div>
+</header>
+<main class="container">
+    <div class="row">
+        <div class="col-12 col-lg-4">
+            <form>
+                <h3><i class="fas fa-user-tag"></i> Manage Customers</h3>
+                <div class="form-group">
+                    <label for="txt-id">Customer ID</label>
+                    <input class="form-control" id="txt-id" placeholder="Eg. C001" type="text">
+                    <small class="form-text text-muted" id="helper-txt-id">
+                        The Customer ID should follow the pattern CXXX; X={0-9}
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label for="txt-name">Customer Name</label>
+                    <input class="form-control" id="txt-name" placeholder="Eg. Lucky Prabath" type="text">
+                    <small class="form-text invalid-feedback">
+                        The Customer Name can contain only letters, spaces and periods and should have at least 3
+                        letters.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label for="txt-address">Customer Address</label>
+                    <input class="form-control" id="txt-address" placeholder="Eg. #1234, Main St, Gampaha" type="text">
+                    <small class="form-text invalid-feedback">
+                        The Customer Address can't be empty, at least should have 3 letters.
+                    </small>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <button class="btn btn-primary" id="btn-save" type="button">Save</button>
+                    <button class="btn btn-danger" id="btn-clear" onclick="clearSelection()" type="reset">Clear</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-12 col-lg-8 d-flex flex-column align-items-center">
+            <div id="tbl-wrapper">
+                <table class="table table-hover table-bordered table-striped" id="tbl-customers">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td class="text-center" colspan="4">
+                            📌 <small>There are no records to show. Add a new customer.</small>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <nav class="hidden" id="pagination">
+                <ul class="pagination">
+                    <li class="page-item" id="btn-backward">
+                        <a class="page-link" href="#"
+                           onclick="document.querySelector('.pagination li:nth-child(2) a').click();">
+                            <i class="fas fa-backward"></i>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#" onclick="navigatePage(event)">1</a></li>
+                    <li class="page-item" id="btn-forward">
+                        <a class="page-link"
+                           href="#" onclick="document.querySelector('.pagination li:nth-last-child(2) a').click();">
+                            <i class="fas fa-forward"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</main>
+<footer>
+    Copyright &copy; 2020 IJSE
+</footer>
+<script src="js/customer-ctrl.js"></script>
+</body>
+</html>
