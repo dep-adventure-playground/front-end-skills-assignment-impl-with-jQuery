@@ -120,7 +120,7 @@ function handleSave(event) {
 
         /* Let's initialize pagination */
         initPagination();
-        renderPage(Math.ceil(customers.length / pageSize));
+        // renderPage(Math.ceil(customers.length / pageSize));
         showOrHideTFoot();
 
         /* Let's ready for next entry */
@@ -132,17 +132,17 @@ function handleSave(event) {
     } else {
 
         /* There is a selected customer which means we need to update */
-        selectedCustomer.name = txtName.value;
-        selectedCustomer.address = txtAddress.value;
-        selectedRow.cells[1].innerText = txtName.value;
-        selectedRow.cells[2].innerText = txtAddress.value;
+        selectedCustomer.name = txtName.val();
+        selectedCustomer.address = txtAddress.val();
+        selectedRow.cells[1].innerText = txtName.val();
+        selectedRow.cells[2].innerText = txtAddress.val();
     }
 
 }
 
 function initPagination() {
 
-    var paginationElm = document.querySelector("#pagination");
+    var paginationElm = $("#pagination");
 
     /* Let's calculate the page size */
     pageSize = -1;
@@ -154,13 +154,16 @@ function initPagination() {
             pageSize = 6;
         } else {
 
+            clearTable();
             /* Let's add a temp row to the table so we can find out the row size */
-            addCustomersToTable(0, 1);
+            addCustomersToTable(0, customers.length);
 
             /* Let's get necessary coordinates and dimensions */
-            var topPos = tblCustomers.tBodies[0].rows[0].getBoundingClientRect().top;
-            var rowHeight = tblCustomers.tBodies[0].rows[0].clientHeight;
-            var paginationHeight = paginationElm.clientHeight;
+            var topPos = tblCustomers.find("tbody tr:first-child").offset().top;
+            // var topPos = tblCustomers.tBodies[0].rows[0].offset().top;
+            var rowHeight = tblCustomers.children("tbody tr:first-child").height;
+            // var rowHeight = tblCustomers.children("tbody tr:first-child").clientHeight;
+            var paginationHeight = paginationElm.height;
             var margin = 40;
             var i = 1;
 
@@ -168,50 +171,50 @@ function initPagination() {
             do {
                 var totalHeight = topPos + (rowHeight * i) + paginationHeight + margin;
                 i++;
-            } while (totalHeight < document.querySelector("footer").getBoundingClientRect().top);
+            } while (totalHeight < $("footer").offset().top);
 
             /* Since this do while loop, you gonna need to subtract two at the end */
             pageSize = i - 2;
 
             /* Let's remove the temp row that we added previously */
-            clearTable();
+            // clearTable();
         }
     }
 
-    /* Let's calculate the page count */
-    if (pageSize === -1) {
-        pageCount = 1;
-    } else {
-        pageCount = Math.ceil(customers.length / pageSize);
-    }
-
-    /* Let's determine whether we display the pagination or not */
-    if (pageCount > 1) {
-        paginationElm.classList.remove("hidden");
-    } else {
-        paginationElm.classList.add('hidden');
-    }
-
-    if (endPageIndex === -1) {
-        endPageIndex = pageCount;
-        startPageIndex = endPageIndex - ((endPageIndex % MAX_PAGES) == 0 ? MAX_PAGES : (endPageIndex % MAX_PAGES));
-    }
-
-    var html = '<li class="page-item" id="btn-backward">' +
-        '           <a class="page-link" href="#"><i class="fas fa-backward"></i></a>' +
-        '       </li>';
-    for (var i = 0; i < pageCount; i++) {
-        if (i >= startPageIndex && i <= endPageIndex) {
-            html += '<li class="page-item"><a class="page-link" href="#">' + (i + 1) + '</a></li>';
-        } else {
-            html += '<li class="page-item d-none"><a class="page-link" href="#">' + (i + 1) + '</a></li>';
-        }
-    }
-    html += '<li class="page-item" id="btn-forward">' +
-        '          <a class="page-link" href="#"><i class="fas fa-forward"></i></a>' +
-        '    </li>';
-    document.querySelector(".pagination").innerHTML = html;
-    endPageIndex = -1;
+    // /* Let's calculate the page count */
+    // if (pageSize === -1) {
+    //     pageCount = 1;
+    // } else {
+    //     pageCount = Math.ceil(customers.length / pageSize);
+    // }
+    //
+    // /* Let's determine whether we display the pagination or not */
+    // if (pageCount > 1) {
+    //     paginationElm.removeClass("hidden");
+    // } else {
+    //     paginationElm.addClass('hidden');
+    // }
+    //
+    // if (endPageIndex === -1) {
+    //     endPageIndex = pageCount;
+    //     startPageIndex = endPageIndex - ((endPageIndex % MAX_PAGES) == 0 ? MAX_PAGES : (endPageIndex % MAX_PAGES));
+    // }
+    //
+    // var html = '<li class="page-item" id="btn-backward">' +
+    //     '           <a class="page-link" href="#"><i class="fas fa-backward"></i></a>' +
+    //     '       </li>';
+    // for (var i = 0; i < pageCount; i++) {
+    //     if (i >= startPageIndex && i <= endPageIndex) {
+    //         html += '<li class="page-item"><a class="page-link" href="#">' + (i + 1) + '</a></li>';
+    //     } else {
+    //         html += '<li class="page-item d-none"><a class="page-link" href="#">' + (i + 1) + '</a></li>';
+    //     }
+    // }
+    // html += '<li class="page-item" id="btn-forward">' +
+    //     '          <a class="page-link" href="#"><i class="fas fa-forward"></i></a>' +
+    //     '    </li>';
+    // $(".pagination").html(html);
+    // endPageIndex = -1;
 }
 
 function renderPage(page) {
@@ -229,9 +232,9 @@ function renderPage(page) {
     }
 
     /* Let's remove active status of the previous page */
-    var exActivePage = document.querySelector("#pagination .page-item.active");
+    var exActivePage = $("#pagination .page-item.active");
     if (exActivePage !== null) {
-        exActivePage.classList.remove('active');
+        exActivePage.removeClass('active');
     }
 
     /* Let's set the active status to the current page
@@ -246,7 +249,7 @@ function renderPage(page) {
      * </ul>
      *  */
 
-    document.querySelector('.pagination li:nth-child(' + (page + 1) + ')').classList.add('active');
+    $('.pagination li:nth-child(' + (page + 1) + ')').addClass('active');
 
     /* Let's check whether we want to disable backward button or forward button */
     toggleBackwardForwardDisability(page);
@@ -264,9 +267,7 @@ function renderPage(page) {
 function clearTable() {
 
     /* So let's delete all the current rows in the table from bottom to up */
-    for (var i = tblCustomers.tBodies[0].rows.length - 1; i >= 0; i--) {
-        tblCustomers.tBodies[0].deleteRow(i);
-    }
+    tblCustomers.find("tbody").empty();
 }
 
 function addCustomersToTable(startIndex, endIndex) {
@@ -280,14 +281,34 @@ function addCustomersToTable(startIndex, endIndex) {
     for (var i = startIndex; i < endIndex; i++) {
 
         /* Let's append a new row */
-        var row = tblCustomers.tBodies.item(0).insertRow(-1);
-        row.onclick = handleSelection;
+        // var row = tblCustomers.tBodies.item(0).insertRow(-1);
+
+        // var row=tblCustomers.find("tbody").append("<tr></tr>");
+
+        // if(i==0){
+        //     row =tblCustomers.find("tbody tr:nth-child(0)");
+        // }else{
+        //     row =tblCustomers.find("tbody tr:nth-child("+i+1+")");
+        // }
+        // row.click(handleSelection());
 
         /* Let's add table data */
-        row.insertCell(0).innerText = customers[i].id;
-        row.insertCell(1).innerText = customers[i].name;
-        row.insertCell(2).innerText = customers[i].address;
-        row.insertCell(3).innerHTML = '<div class="trash" onclick="handleDelete(event)"></div>';
+        var row=$("<tr></tr>");
+        var customerIdTD=$("<td></td>");
+        customerIdTD.text(customers[i].id);
+        var customerNameTD=$("<td></td>");
+        customerNameTD.text(customers[i].name);
+        var customerAddressTD=$("<td></td>");
+        customerAddressTD.text(customers[i].address)
+        var customerDeleteButtonTD=$("<td><div class=\"trash\" onclick=\"handleDelete(event)\"></div></td>")
+
+        row.append(customerIdTD);
+        row.append(customerNameTD);
+        row.append(customerAddressTD);
+        row.append(customerDeleteButtonTD);
+        tblCustomers.find("tbody").append(row);
+        // row.click(handleSelection());
+
     }
 }
 
@@ -319,38 +340,40 @@ function clearSelection() {
 }
 
 function handleSelection(event) {
+    console.log("Hiii");
+    console.log(event);
     clearSelection();
     selectedRow = event.target.parentElement;
     selectedRow.classList.add('selected');
-    txtId.value = selectedRow.cells[0].innerText;
+    txtId.text(selectedRow.cells[0].innerText);
     txtId.disabled = true;
-    txtName.value = selectedRow.cells[1].innerText;
-    txtAddress.value = selectedRow.cells[2].innerText;
+    txtName.text(selectedRow.cells[1].innerText);
+    txtAddress.text(selectedRow.cells[2].innerText);
     selectedCustomer = customers.find(function (c) {
         return c.id === selectedRow.cells[0].innerText;
     });
 }
 
-function handleDelete(event) {
-
-    if (confirm("Are you sure whether you want to delete this customer?")) {
-
-        /* Let's remove the customer from the array */
-        customers.splice(customers.findIndex(function (c) {
-            return c.id === event.target.parentElement.parentElement.cells[0].innerText;
-        }), 1);
-
-        var activePage = +document.querySelector(".pagination .active").innerText;
-        initPagination();
-        renderPage(activePage ? activePage : 1);
-        showOrHideTFoot();
-
-        event.stopPropagation();
-    }
-}
+// function handleDelete(event) {
+//
+//     if (confirm("Are you sure whether you want to delete this customer?")) {
+//         /* Let's remove the customer from the array */
+//         customers.splice(customers.findIndex(function (c) {
+//             return c.id === event.target.parentElement.parentElement.cells[0].innerText;
+//             // return c.id === $(event.target).parents("tr:first-child").text();
+//         }), 1);
+//
+//         var activePage = +$(".pagination .active").text();
+//         initPagination();
+//         // renderPage(activePage ? activePage : 1);
+//         showOrHideTFoot();
+//
+//         event.stopPropagation();
+//     }
+// }
 
 function showOrHideTFoot() {
-    if (tblCustomers.tBodies.item(0).rows.length > 0) {
+    if (tblCustomers.children("tbody tr").length > 0) {
         document.querySelector("#tbl-customers tfoot").classList.add('d-none');
     } else {
         document.querySelector("#tbl-customers tfoot").classList.remove('d-none');
