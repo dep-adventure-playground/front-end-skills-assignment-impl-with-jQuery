@@ -43,10 +43,10 @@ var MAX_PAGES = 3;
 init();
 
 function init() {
-    txtId = document.getElementById('txt-id');
-    txtName = document.getElementById('txt-name');
-    txtAddress = document.getElementById('txt-address');
-    tblCustomers = document.getElementById('tbl-customers');
+    txtId = $('#txt-id');
+    txtName = $('#txt-name');
+    txtAddress = $('#txt-address');
+    tblCustomers = $('#tbl-customers');
 
     txtId.focus();
 }
@@ -55,11 +55,11 @@ function init() {
  * Event Handlers and Timers
  *===============================================================================*/
 
-document.getElementById('btn-save').addEventListener('click', handleSave);
-document.addEventListener('click', handleClickEventDelegation);
-txtId.addEventListener('input', handleInput)
-txtName.addEventListener('input', handleInput)
-txtAddress.addEventListener('input', handleInput)
+$('#btn-save').click(handleSave);
+$('document').click(handleClickEventDelegation);
+txtId.keypress(handleInput);
+txtName.keypress(handleInput);
+txtAddress.keypress(handleInput);
 
 /*===============================================================================
  * Functions
@@ -113,9 +113,9 @@ function handleSave(event) {
 
         /* There is no selected customer which means we need to save */
         customers.push({
-            id: txtId.value,
-            name: txtName.value,
-            address: txtAddress.value
+            id: txtId.val(),
+            name: txtName.val(),
+            address: txtAddress.val()
         });
 
         /* Let's initialize pagination */
@@ -124,9 +124,9 @@ function handleSave(event) {
         showOrHideTFoot();
 
         /* Let's ready for next entry */
-        txtId.value = '';
-        txtName.value = '';
-        txtAddress.value = '';
+        txtId.val("");
+        txtName.val("");
+        txtAddress.val("");
         txtId.focus();
 
     } else {
@@ -368,40 +368,40 @@ function validate() {
     var regExp = null;
     var validated = true;
 
-    txtId.classList.remove('is-invalid');
-    txtName.classList.remove('is-invalid');
-    txtAddress.classList.remove('is-invalid');
+    txtId.removeClass('is-invalid');
+    txtName.removeClass('is-invalid');
+    txtAddress.removeClass('is-invalid');
 
-    if (txtAddress.value.trim().length < 3) {
-        txtAddress.classList.add('is-invalid');
+    if (txtAddress.val().trim().length < 3) {
+        txtAddress.addClass('is-invalid');
         txtAddress.select();
         validated = false;
     }
 
     regExp = /^[A-Za-z][A-Za-z .]{3,}$/;
-    if (!regExp.test(txtName.value)) {
-        txtName.classList.add('is-invalid');
+    if (!regExp.test(txtName.val())) {
+        txtName.addClass('is-invalid');
         txtName.select();
         validated = false;
     }
 
     regExp = /^C\d{3}$/;
-    if (!regExp.test(txtId.value)) {
-        txtId.classList.add('is-invalid');
-        document.getElementById('helper-txt-id').classList.remove('text-muted');
-        document.getElementById('helper-txt-id').classList.add('invalid-feedback');
+    if (!regExp.test(txtId.val())) {
+        txtId.addClass('is-invalid');
+        $('helper-txt-id').removeClass('text-muted');
+        $('helper-txt-id').addClass('invalid-feedback');
         txtId.select();
         validated = false;
     }
 
     /* Let's find whether duplicate ids are there */
     if (customers.findIndex(function (c) {
-        return c.id === txtId.value
+        return c.id === txtId.val()
     }) !== -1) {
         alert("Duplicate Customer IDs are not allowed");
-        txtId.classList.add('is-invalid');
-        document.getElementById('helper-txt-id').classList.remove('text-muted');
-        document.getElementById('helper-txt-id').classList.add('invalid-feedback');
+        txtId.addClass('is-invalid');
+        $('helper-txt-id').removeClass('text-muted');
+        $('helper-txt-id').addClass('invalid-feedback');
         txtId.select();
         validated = false;
     }
