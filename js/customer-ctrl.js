@@ -374,15 +374,15 @@ function handleDelete(event) {
 }
 
 function showOrHideTFoot() {
-    if (tblCustomers.children("tbody tr").length > 0) {
-        document.querySelector("#tbl-customers tfoot").classList.add('d-none');
+    if (tblCustomers.find("tbody tr").length > 0) {
+        $("#tbl-customers tfoot").addClass('d-none');
     } else {
-        document.querySelector("#tbl-customers tfoot").classList.remove('d-none');
+        $("#tbl-customers tfoot").removeClass('d-none');
     }
 }
 
 function handleInput(event) {
-    this.classList.remove('is-invalid');
+    $(this).removeClass('is-invalid');
 }
 
 function validate() {
