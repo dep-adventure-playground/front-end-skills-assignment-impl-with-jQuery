@@ -358,12 +358,13 @@ function handleDelete(event) {
 
     if (confirm("Are you sure whether you want to delete this customer?")) {
         /* Let's remove the customer from the array */
+        console.log(event.target);
         customers.splice(customers.findIndex(function (c) {
-            return c.id === event.target.parentElement.parentElement.cells[0].innerText;
-            // return c.id === $(event.target).parents("tr:first-child").text();
+            // return c.id === event.target.parentElement.parentElement.cells[0].innerText;
+            return c.id === $(event.target).parent().parent().find("td:first-child").text();
         }), 1);
 
-        var activePage = +$(".pagination .active").text();
+        var activePage = $(".pagination .active").text();
         initPagination();
         // renderPage(activePage ? activePage : 1);
         showOrHideTFoot();
